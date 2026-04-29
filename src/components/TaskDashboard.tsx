@@ -4,6 +4,7 @@ import { Plus, GripVertical, Sparkles, Check, Trash2, Clock } from "lucide-react
 import { cn } from "../lib/utils";
 import { Task } from "../types";
 import { autoSortTasks } from "../services/gemini";
+import TiltCard from "./TiltCard";
 
 interface Props {
   isSummary?: boolean;
@@ -63,7 +64,7 @@ export default function TaskDashboard({ isSummary }: Props) {
 
   if (isSummary) {
     return (
-      <div className="glass-panel p-6">
+      <TiltCard intensity={5} className="p-6">
         <div className="flex items-center justify-between mb-6">
           <h3 className="font-bold text-lg">Top Priorities</h3>
           <button onClick={handleAutoSort} disabled={isSorting} className="text-neon-cyan hover:text-white transition-colors">
@@ -81,7 +82,7 @@ export default function TaskDashboard({ isSummary }: Props) {
             </div>
           ))}
         </div>
-      </div>
+      </TiltCard>
     );
   }
 

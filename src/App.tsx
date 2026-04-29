@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "motion/react";
 import { 
   LayoutDashboard, 
   CheckSquare, 
@@ -26,13 +26,27 @@ import HealthTracker from "./components/HealthTracker";
 import TalentHub from "./components/TalentHub";
 import AIAssistant from "./components/AIAssistant";
 import CalendarView from "./components/CalendarView";
+import TiltCard from "./components/TiltCard";
 
 type Tab = "dashboard" | "tasks" | "health" | "talent" | "calendar";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>("dashboard");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth > 1024);
   const [showAIAssistant, setShowAIAssistant] = useState(false);
+
+  // Handle mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setIsSidebarOpen(false);
+      } else {
+        setIsSidebarOpen(true);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Toggle AI Assistant with a shortcut
   useEffect(() => {
@@ -180,20 +194,20 @@ export default function App() {
                   {/* Summary Widgets */}
                   <div className="lg:col-span-2 space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="glass-panel p-6 neon-border-cyan">
+                      <TiltCard intensity={10} className="p-6 neon-border-cyan">
                         <h3 className="text-sm font-bold uppercase tracking-wider text-neon-cyan mb-4">Total Energy</h3>
                         <div className="flex items-end gap-2">
                           <span className="text-4xl font-bold">84%</span>
                           <span className="text-green-400 text-sm mb-1">+5% from yesterday</span>
                         </div>
-                      </div>
-                      <div className="glass-panel p-6 neon-border-violet">
+                      </TiltCard>
+                      <TiltCard intensity={10} className="p-6 neon-border-violet">
                         <h3 className="text-sm font-bold uppercase tracking-wider text-neon-violet mb-4">Focus Score</h3>
                         <div className="flex items-end gap-2">
                           <span className="text-4xl font-bold">92</span>
                           <span className="text-neon-violet text-sm mb-1">Peak performance</span>
                         </div>
-                      </div>
+                      </TiltCard>
                     </div>
                     <TaskDashboard isSummary />
                   </div>

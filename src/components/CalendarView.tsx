@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import { Calendar as CalendarIcon, RefreshCw, ExternalLink, ShieldCheck, LogOut, Clock } from "lucide-react";
 import { cn } from "../lib/utils";
 import { CalendarEvent } from "../types";
+import TiltCard from "./TiltCard";
 
 interface Props {
   isSummary?: boolean;
@@ -88,7 +89,7 @@ export default function CalendarView({ isSummary }: Props) {
 
   if (isSummary) {
     return (
-      <div className="glass-panel p-6">
+      <TiltCard intensity={5} className="p-6">
         <div className="flex items-center justify-between mb-6">
           <h3 className="font-bold text-lg leading-tight uppercase tracking-widest text-xs text-gray-500">Upcoming Flow</h3>
           {isAuthenticated && (
@@ -125,7 +126,7 @@ export default function CalendarView({ isSummary }: Props) {
             )}
           </div>
         )}
-      </div>
+      </TiltCard>
     );
   }
 
